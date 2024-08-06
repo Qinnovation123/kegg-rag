@@ -8,10 +8,11 @@ distribution = false
 [tool.pdm.scripts]
 post_install = "pre-commit install"
 fmt = { composite = ["ruff check --fix --exit-zero", "ruff format"] }
+test = { cmd = ["watchfiles", "pytest --lf", "src", "tests"] }
 
 [tool.pdm.dev-dependencies]
 dev = ["ruff~=0.5.4", "pre-commit~=3.7.1"]
-test = ["pytest~=8.3.2", "pytest-asyncio~=0.23.8"]
+test = ["pytest~=8.3.2", "pytest-asyncio~=0.23.8", "watchfiles~=0.22.0"]
 
 [tool.pytest.ini_options]
 pythonpath = "src"
