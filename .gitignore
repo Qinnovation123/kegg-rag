@@ -1,0 +1,15 @@
+.DS_Store
+node_modules
+.env
+!.env.example
+
+__pycache__
+/.*_cache
+*venv
+*pdm*
+
+dist
+
+.vscode
+.fleet
+.idea

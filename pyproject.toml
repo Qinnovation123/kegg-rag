@@ -1,0 +1,37 @@
+[project]
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+post_install = "pre-commit install"
+fmt = { composite = ["ruff check --fix --exit-zero", "ruff format"] }
+
+[tool.pdm.dev-dependencies]
+dev = ["ruff~=0.5.4", "pre-commit~=3.7.1"]
+
+[tool.ruff]
+line-length = 200
+
+[tool.ruff.lint]
+extend-select = [
+    "I",    # isort
+    "N",    # pep8-naming
+    "W",    # pycodestyle
+    "UP",   # pyupgrade
+    "TRY",  # tryceratops
+    "RUF",  # ruff
+    "FURB", # refurb
+    "C4",   # flake8-comprehensions
+    "ARG",  # flake8-unused-arguments
+    "PIE",  # flake8-pie
+    "PTH",  # flake8-use-pathlib
+    "RSE",  # flake8-raise
+    "SIM",  # flake8-simplify
+    "SLF",  # flake8-self
+]
+ignore = [
+    "RUF200", # Failed to parse pyproject.toml: missing field `name`
+]
