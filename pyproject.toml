@@ -2,7 +2,7 @@
 name = "kegg-rag"
 version = "1"
 requires-python = ">=3.12"
-dependencies = ["niquests~=3.7.2", "pydantic-settings~=2.4.0"]
+dependencies = ["niquests~=3.7.2", "pydantic-settings~=2.4.0", "parsel~=1.9.1"]
 
 [tool.pdm]
 distribution = true
