@@ -2,12 +2,34 @@ name: CI
 
 on: [push, fork, pull_request, workflow_dispatch]
 
+env:
+  UV_SYSTEM_PYTHON: true
+
 jobs:
   typos:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: crate-ci/typos@master
+
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu, windows, macos]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          pip install uv --disable-pip-version-check
+          uv tool run pdm export --pyproject --with test | uv pip install -r -
+      - name: Run tests
+        run: pytest -v -s
 
   check:
     strategy:
@@ -23,8 +45,8 @@ jobs:
           python-version: 3.12
       - name: Install dependencies
         run: |
-          pip install uv
-          uv tool run pdm export --pyproject | uv pip install -r - --system
+          pip install uv --disable-pip-version-check
+          uv tool run pdm export --pyproject | uv pip install -r -
       - name: Check code quality
         run: |
           ruff format --check --diff
