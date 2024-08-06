@@ -1,9 +1,11 @@
 [project]
+name = "kegg-rag"
+version = "1"
 requires-python = ">=3.12"
 dependencies = ["niquests~=3.7.2", "pydantic-settings~=2.4.0"]
 
 [tool.pdm]
-distribution = false
+distribution = true
 
 [tool.pdm.scripts]
 post_install = "pre-commit install"
