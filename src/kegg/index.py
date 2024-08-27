@@ -2,6 +2,7 @@ from collections import namedtuple
 from itertools import batched
 
 from parsel import Selector
+
 from utils.fetch import fetch
 
 Pathway = namedtuple("Pathway", ["kid", "integrations", "title", "href"])
