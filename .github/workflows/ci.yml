@@ -2,9 +2,6 @@ name: CI
 
 on: [push, fork, pull_request, workflow_dispatch]
 
-env:
-  UV_SYSTEM_PYTHON: true
-
 jobs:
   typos:
     runs-on: ubuntu-latest
@@ -21,13 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: 3.12
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
       - name: Install dependencies
         run: |
-          pip install uv --disable-pip-version-check
-          uv tool run pdm export --pyproject --with test | uv pip install -r -
+          uv export --no-hashes --group test --no-dev | uv pip install -r -
       - name: Run tests
         run: pytest -v -s
 
@@ -40,17 +38,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: 3.12
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
       - name: Install dependencies
         run: |
-          pip install uv --disable-pip-version-check
-          uv tool run pdm export --pyproject | uv pip install -r -
+          uv export --no-hashes | uv pip install -r - basedpyright
       - name: Check code quality
         run: |
           ruff format --check --diff
           ruff check --diff
       - name: Type Check
         run: |
-          npx pyright
+          basedpyright
